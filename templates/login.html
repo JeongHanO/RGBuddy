@@ -1,0 +1,10 @@
+{# index.html 상속 #} {% extends "index.html" %} #블록 {% block content %}
+<div>
+  <h2>Login</h2>
+  <form method="post" id="login-form">
+    <input type="text" name="userId" placeholder="Id" />
+    <input type="password" name="userPassword" placeholder="Password" />
+    <input type="submit" value="Login" />
+  </form>
+</div>
+{% endblock %}
