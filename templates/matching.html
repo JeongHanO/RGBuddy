@@ -1,0 +1,81 @@
+<head>
+    <style>
+        .matching {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding-top: auto;
+        }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        function matching() {
+            $.ajax({
+                type: "GET",
+                url: "/matching",
+                data: { 'date': "4/11" }
+            })
+        }
+    </script>
+</head>
+
+<body>
+    <div class="matching pt-32">
+        <h2 class="date-label text-7xl font-bold">{{date}}</h2>
+        <br>
+        <div class="photo">
+            {% if redCount ==1 and teamColor!='red' %}
+            <img class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='r1.jpg')}}"></img>
+            {% elif redCount ==2 and teamColor!='red' %}
+            <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='r2.jpg')}}"></img>
+            {% elif redCount ==3 and teamColor!='red'%}
+            <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='r3.jpg')}}"></img>
+            {% elif redCount ==0 and teamColor=='red' %}
+            <img class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='r1_add.jpg')}}"></img>
+            {% elif redCount ==1 and teamColor=='red' %}
+            <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='r2_add.jpg')}}"></img>
+            {% elif redCount ==2 and teamColor=='red'%}
+            <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='r3_add.jpg')}}"></img>
+            {% endif %}
+
+            {% if greenCount ==1 and teamColor!='green'%}
+            <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='g1.jpg')}}"></img>
+            {% elif greenCount ==2 and teamColor!='green' %}
+            <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='g2.jpg')}}"></img>
+            {% elif greenCount ==3 and teamColor!='green'%}
+            <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='g3.jpg')}}"></img>
+            {% elif greenCount ==0 and teamColor=='green'%}
+            <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='g1_add.jpg')}}"></img>
+            {% elif greenCount ==1 and teamColor=='green' %}
+            <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='g2_add.jpg')}}"></img>
+            {% elif greenCount ==2 and teamColor=='green'%}            
+            <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='g3_add.jpg')}}"></img>
+            {% endif %}
+
+            {% if blueCount ==1 and teamColor!='blue'%}
+            <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='b1.jpg')}}"></img>
+            {% elif blueCount ==2 and teamColor!='blue' %}
+            <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='b2.jpg')}}"></img>
+            {% elif blueCount ==3 and teamColor!='blue'%}
+            <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='b3.jpg')}}"></img>
+            {% elif blueCount ==1 and teamColor=='blue' %}
+            <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='b1.jpg')}}"></img>
+            {% elif blueCount ==2 and teamColor=='blue' %}
+            <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='b2.jpg')}}"></img>
+            {% elif blueCount ==3 and teamColor=='blue' %}
+            <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='b3.jpg')}}"></img>
+            {% endif %}
+        </div>
+        <br><br>
+        <div>
+            <a class="w-48 bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded text-4xl inline mx-5" href="/calendar">뒤로 가기</a>
+
+            <button
+                class="w-48 h-20 bg-yellow-500 hover:bg-yellow-700 text-black font-bold py-2 px-4 rounded text-4xl inline mx-5">
+                신청하기
+            </button>
+        </div>
+
+    </div>
+</body>

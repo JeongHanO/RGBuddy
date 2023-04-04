@@ -1,3 +1,4 @@
+
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 app = Flask(__name__)
 
@@ -5,7 +6,8 @@ from pymongo import MongoClient
 client = MongoClient('localhost', 27017)
 db = client.dbjungle
 
-import hashlib, datetime, jwt
+import hashlib, jwt, calendar
+from datetime import datetime
 
 KEYCODE = 'RGBuddy_key'
 
@@ -72,8 +74,51 @@ def api_login():
    else:
       return jsonify({'result': 'fail', 'msg': '아이디 또는 비밀번호가 일치하지 않습니다.'}) 
 
+@app.route('/calendar')
+def calendar():
+    #(추가필요) 로그인이 되어있는지 확인해야 함.
+    now = datetime.now()
+    year = now.year
+    month = now.month
+    day = now.day
+    weekday = now.weekday()
+    
+    return render_template('calendar.html', year=year, month=month, day=day, weekday=weekday)
+    
+#GET으로 날짜값을 넘겨준다음, 그 날짜에 해당하는 
+@app.route('/matching', methods = ['GET'])
+def matching():
 
+    #(추가필요) 로그인이 되어있는지 확인해야 함.
+    
+    #(수정필요) 사용자의 팀을 불러서 저장
+    teamColor ='red' # 임시저장
+    
+    
+    date = request.args.get('date')
+    
+    #받아온 date로 db에서 각 팀에 저장된 사람의 수를 불러옴
+    query = {'date': date}
+    
+    data = list(db.dates.find(query))
+    
+    if not data:
+        redCount = 0
+        blueCount = 0
+        greenCount=0
+    else:
+        redCount = len(data[0]['red'])
+        blueCount = len(data[0]['blue'])
+        greenCount = len(data[0]['green'])
+    
+    enMonth = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ]
+    month, day = map(int, date.split("/"))
+    enDate = enMonth[month]+" "+str(day)
+   
+
+    return render_template('matching.html', redCount=redCount, blueCount=blueCount, greenCount=greenCount, teamColor=teamColor, date=enDate)
 
 
 if __name__ == '__main__':
    app.run('0.0.0.0',port=5000,debug=True)
+
