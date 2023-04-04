@@ -1,22 +1,93 @@
-{# index.html 상속 #} {% extends "index.html" %} #블록 {% block content %}
+{# index.html 상속 #} {% extends "index.html" %} {% block head %}
+<script>
+  function signup() {
+    let id = $("[name=join-id]").val();
+    let pw = $("[name=join-pw]").val();
+    let name = $("[name=join-name]").val();
+    let team = $("[name=join-team]:checked").val();
+    let phone = $("[name=join-phone]").val();
+    console.log("nono");
+    $.ajax({
+      type: "POST", // POST 요청
+      url: "/signup", // signup 이란 url에 요청
+      data: {
+        id_give: id,
+        pw_give: pw,
+        name_give: name,
+        team_give: team,
+        phone_give: phone,
+      }, // 데이터 넘겨줌
+      success: function (response) {
+        if (response["result"] == "success") {
+          alert("회원가입 성공!");
+
+          window.location.reload();
+        } else {
+          alert("서버 오류!");
+        }
+      },
+    });
+  }
+</script>
+{% endblock %} {% block content %}
 <div>
   <h2>Join</h2>
-  <form method="post" id="join-form">
-    <input type="text" name="userId" placeholder="아이디" />
-    <input type="password" name="userPassword" placeholder="비밀번호" />
-    <input type="password" name="checkPassword" placeholder="비밀번호 확인" />
-    <input type="text" name="userName" placeholder="이름" />
-    <input
-      type="text"
-      name="phone"
-      placeholder="전화번호(괄호 없이 적어주세요)"
-    />
-    <div>
-      <input type="radio" name="class" value="red" />레드
-      <input type="radio" name="class" value="blue" />블루
-      <input type="radio" name="class" value="green" />그린
-      <input type="submit" value="Join" />
-    </div>
-  </form>
+  <div>
+    <fieldset>
+      아이디:
+      <input
+        type="text"
+        name="join-id"
+        placeholder="아이디를 입력하세요"
+        required
+      />
+
+      <br />
+      <br />
+      비밀번호:
+      <input
+        type="password"
+        name="join-pw"
+        placeholder="비밀번호를 입력하세요"
+        required
+      />
+
+      <br /><br />
+      이름:
+      <input
+        type="text"
+        name="join-name"
+        placeholder="이름을 입력하세요"
+        required
+      />
+      <br /><br />
+      연락처:
+      <input
+        type="text"
+        name="join-phone"
+        placeholder="연락처를 입력하세요"
+        required
+      />
+      <br /><br />
+
+      <p style="color: red">
+        레드팀<input type="radio" name="join-team" value="red" />
+      </p>
+      <p style="color: blue">
+        블루팀 <input type="radio" name="join-team" value="blue" />
+      </p>
+      <p style="color: green">
+        그린팀 <input type="radio" name="join-team" value="green" />
+      </p>
+
+      <br />
+      <button type="button" class="btn btn-primary" onclick="signup()">
+        회원 가입
+      </button>
+      <button type="button" class="btn btn-primary" onclick="matching()">
+        test
+      </button>
+    </fieldset>
+  </div>
 </div>
 {% endblock %}
