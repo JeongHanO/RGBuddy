@@ -1,10 +1,35 @@
-{# index.html 상속 #} {% extends "index.html" %} #블록 {% block content %}
+{# index.html 상속 #} {% extends "index.html" %} {% block head %}
+<script>
+  function login() {
+    let id = $("[name=userId]").val();
+    let pw = $("[name=userPassword]").val();
+
+    $.ajax({
+      type: "POST",
+      url: "/api/login",
+      data: { id_give: id, pw_give: pw },
+
+      success: function (response) {
+        if (response["result"] == "success") {
+          $.cookie("mytoken", response["token"]);
+          alert("로그인 완료!");
+          window.location.href = "/";
+        } else {
+          alert(response["msg"]);
+        }
+      },
+    });
+  }
+</script>
+{% endblock %} {% block content %}
 <div>
   <h2>Login</h2>
-  <form method="post" id="login-form">
+  <fieldset>
     <input type="text" name="userId" placeholder="Id" />
     <input type="password" name="userPassword" placeholder="Password" />
-    <input type="submit" value="Login" />
-  </form>
+    <button type="button" class="btn btn-primary" onclick="login()">
+      로그인
+    </button>
+  </fieldset>
 </div>
 {% endblock %}
