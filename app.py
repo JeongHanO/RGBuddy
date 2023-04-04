@@ -1,6 +1,8 @@
 # program 종료하려면 Ctrl+C
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 from pymongo import MongoClient
+from datetime import datetime
+import calendar
 client  = MongoClient('localhost', 27017)
 db = client.rgbuddy
 
@@ -43,18 +45,29 @@ def login():
 
     return render_template('login.html')
 
-
-
+@app.route('/calendar')
+def calendar():
+    #(추가필요) 로그인이 되어있는지 확인해야 함.
+    now = datetime.now()
+    year = now.year
+    month = now.month
+    day = now.day
+    weekday = now.weekday()
+    
+    return render_template('calendar.html', year=year, month=month, day=day, weekday=weekday)
+    
+    
 
 
     
 #GET으로 날짜값을 넘겨준다음, 그 날짜에 해당하는 
-
-
 @app.route('/matching', methods = ['GET'])
 def matching():
 
     #(추가필요) 로그인이 되어있는지 확인해야 함.
+    
+    #(수정필요) 사용자의 팀을 불러서 저장
+    teamColor ='red' # 임시저장
     
     
     date = request.args.get('date')
@@ -63,12 +76,22 @@ def matching():
     query = {'date': date}
     
     data = list(db.dates.find(query))
- 
-    redCount = len(data[0]['red'])
-    blueCount = len(data[0]['blue'])
-    greenCount = len(data[0]['green'])
+    
+    if not data:
+        redCount = 0
+        blueCount = 0
+        greenCount=0
+    else:
+        redCount = len(data[0]['red'])
+        blueCount = len(data[0]['blue'])
+        greenCount = len(data[0]['green'])
+    
+    enMonth = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ]
+    month, day = map(int, date.split("/"))
+    enDate = enMonth[month]+" "+str(day)
+   
 
-    return render_template('matching.html', redCount=redCount, blueCount=blueCount, greenCount=greenCount)
+    return render_template('matching.html', redCount=redCount, blueCount=blueCount, greenCount=greenCount, teamColor=teamColor, date=enDate)
 
 
 

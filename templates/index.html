@@ -41,10 +41,12 @@
         </style>
         <script>
             function matching(){
+                // window.location.href='/matching?date=${variable}'
                 window.location.href='/matching?date=4/11'
                 $.ajax({
                     type: "GET",
                     url: "/matching",
+                    // data: {'date': variable}
                     data: {'date': "4/11"}
                 })
             }
