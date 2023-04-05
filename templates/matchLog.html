@@ -28,112 +28,39 @@
       <div class="inline">매칭 대기 중인 날짜:</div>
       <!-- <button class="days_waiting inline px-1">4/8</button>
       <button class="days_waiting inline px-1">4/12</button> -->
-      {% for date in waitDates %}
+      {% for date in not_matched %}
       <button class="days_waiting inline px-1">{{date}}</button>
       {% endfor %}
     </div>
   </div>
   <br />
-  <div class="card_container">
+  <div class="card_container grid grid-cols-3">
+    {% for dateInfo in matched %}
     <div
       class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow mx-3 my-3"
       style="float: left"
     >
       <div>
-        <h5
-          class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white inline pr-2"
-        >
-          AAA
-        </h5>
-        <p class="font-normal text-gray-700 inline">010-1234-4444</p>
+        <div class="font-bold">{{dateInfo[0]}}</div>
+        {% for i in range(3) %}
+        <div>
+          <h5
+            class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white inline pr-2"
+          >
+            {{dateInfo[i+1][0]}}
+          </h5>
+          <p class="font-normal text-gray-700 inline">{{dateInfo[i+1][1]}}</p>
+        </div>
+        {% endfor %}
       </div>
       <div>
-        <h5
-          class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white inline pr-2"
-        >
-          AAA
-        </h5>
-        <p class="font-normal text-gray-700 inline">010-1234-1234</p>
-      </div>
-      <div>
-        <h5
-          class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white inline pr-2"
-        >
-          AAA
-        </h5>
-        <p class="font-normal text-gray-700 inline">010-1234-1234</p>
-      </div>
-      <br />
-      <div>
-        <p class="font-normal text-gray-700 inline">추천 메뉴:</p>
+        <br />
+        <div>
+          <p class="font-normal text-gray-700 inline">추천 메뉴:</p>
+        </div>
       </div>
     </div>
-    <div
-      class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow mx-3 my-3"
-      style="float: left"
-    >
-      <div>
-        <h5
-          class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white inline pr-2"
-        >
-          AAA
-        </h5>
-        <p class="font-normal text-gray-700 inline">010-1234-1234</p>
-      </div>
-      <div>
-        <h5
-          class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white inline pr-2"
-        >
-          AAA
-        </h5>
-        <p class="font-normal text-gray-700 inline">010-1234-1234</p>
-      </div>
-      <div>
-        <h5
-          class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white inline pr-2"
-        >
-          AAA
-        </h5>
-        <p class="font-normal text-gray-700 inline">010-1234-1234</p>
-      </div>
-      <br />
-      <div>
-        <p class="font-normal text-gray-700 inline">추천 메뉴:</p>
-      </div>
-    </div>
-    <div
-      class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow mx-3 my-3"
-      style="float: left"
-    >
-      <div>
-        <h5
-          class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white inline pr-2"
-        >
-          AAA
-        </h5>
-        <p class="font-normal text-gray-700 inline">010-1234-1234</p>
-      </div>
-      <div>
-        <h5
-          class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white inline pr-2"
-        >
-          AAA
-        </h5>
-        <p class="font-normal text-gray-700 inline">010-1234-1234</p>
-      </div>
-      <div>
-        <h5
-          class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white inline pr-2"
-        >
-          AAA
-        </h5>
-        <p class="font-normal text-gray-700 inline">010-1234-1234</p>
-      </div>
-      <br />
-      <div>
-        <p class="font-normal text-gray-700 inline">추천 메뉴:</p>
-      </div>
-    </div>
+    {% endfor %}
   </div>
 
   <br />

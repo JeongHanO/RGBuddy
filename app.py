@@ -23,7 +23,6 @@ def tokenCheck():
    return [ True, user_info]
 
 
-
 ## HTML을 주는 부분
 @app.route('/')
 def home():
@@ -101,14 +100,38 @@ def matching():
    else:
       return login[1]
 
-@app.route('/matchLog')
+@app.route('/matchLog', methods = {'GET'})
 def matchLog():
    login = tokenCheck()
    if login[0]==True:
       userInfo = login[1]
-      
-      userInfo['id']
-      return render_template('matchLog.html', userName=userInfo['name'], waitDates=['4/8', '4/15'])
+
+      dates = userInfo['date']
+      not_matched=[]
+      matched=[]
+      print(dates)
+      for date in dates:
+         data = db.dates.find_one({'date': date})
+         index = data[userInfo['team']].index(userInfo['id'])
+         print(index)
+         if min(len(data['red']), len(data['green']), len(data['blue'])) < index+1 :
+            #매칭 되지 않은 날짜
+            not_matched.append(date)
+         else:
+            #매칭 된 날짜
+            # print(data['red'][index], data['green'][index], data['blue'][index])
+            # print(matched)
+            # matched.append({'date': date, {'name'}})
+            # print(db.users.find_one({'id': data['red'][index]})['id','phone'])
+            suc_date = [date]
+            for team in ['red', 'green','blue']:
+               id=data[team][index]
+               phone=db.users.find_one({'id': data['red'][index]})['phone']
+               suc_date.append([id, phone])
+            matched.append(suc_date)
+                  
+
+      return render_template('matchLog.html', userName=userInfo['name'], not_matched=not_matched, matched=matched)
       
    else:
       return login[1]
@@ -126,7 +149,7 @@ def api_signup():
    pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
 
    user = {'id': id_receive, 'password': pw_hash, 'name' : name_receive, 
-            'phone': phone_receive, 'team': team_receive}
+            'phone': phone_receive, 'team': team_receive, 'date':[]}
    db.users.insert_one(user)
 
    return jsonify({'result': 'success'})
@@ -155,7 +178,7 @@ def api_login():
       return jsonify({'result': 'fail', 'msg': '아이디 또는 비밀번호가 일치하지 않습니다.'}) 
 
 @app.route('/api/apply', methods= ['POST'])
-def apply():
+def api_apply():
 
     login = tokenCheck()
     if login[0]==True:
@@ -165,24 +188,33 @@ def apply():
     
     date_receive = request.form['date_give']
     month, day = map(str, date_receive.split(" "))
-    month ='January'
     enMonth = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ]
     month_number = enMonth.index(month)
     date_formatted = str(month_number)+'/'+str(day)
 
     teamColor = userInfo['team']
     userId = userInfo['id']
-    
-   #  query = {"date": date_formatted}
-   #  new_value = {"$push": {teamColor: userId}}
-    # 데이터 업데이트
-   #  db.dates.update_one(query, new_value)
+   
+    newDate = userInfo['date']+[date_formatted]
+    db.users.update_one({'id': userId},{"$set":{'date':newDate}})
 
-    date_col=db.dates.find_one({'date':date_formatted})
-    date_col.update  
-
+    data = db.dates.find_one({'date': date_formatted})
+    print(data)
+    if data is not None:
+       print('date db found')
+       new_list = data[teamColor]+[userId]
+       print(new_list)
+       db.dates.update_one({'date':date_formatted},{"$set": {teamColor: new_list}})
+       
+    else:
+       print('no date db')
+       db_date = {'date': date_formatted, 'red': [], 'green': [], 'blue': []}
+       db_date[teamColor].append(userId)
+       db.dates.insert_one(db_date)
 
     return jsonify({'result': 'success'})
+
+
 
 
 if __name__ == '__main__':

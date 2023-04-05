@@ -5,11 +5,24 @@
     <style></style>
     <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-
+    <script>
+      function logout() {
+        $.removeCookie('mytoken', {path: '/'});
+        window.location.href = '/login';
+      }
+    </script>
     {% block head %}
     {% endblock %}
   </head>
   <body>
+    <div>
+      <button
+                type="submit"
+                class="group relative flex w-32 ml-auto justify-center rounded-lg bg-gray-600 px-3 py-2 text-sm font-semibold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 inline"
+              >
+              로그아웃
+              </button>
+    </div>
     <div>
       
       <div>
@@ -17,6 +30,7 @@
         {% endblock %}
       </div>
     </div>
+
   </body>
 
 </html>
