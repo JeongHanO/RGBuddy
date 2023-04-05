@@ -39,7 +39,7 @@ def login():
    if login[0]==True:
       return redirect(url_for("calendar", msg="로그인 되어있습니다."))
    else:
-      return render_template('login_.html')
+      return render_template('login.html')
 
 @app.route('/signup')
 def signup():   
@@ -47,7 +47,7 @@ def signup():
    if login[0]==True:
       return redirect(url_for("calendar", msg="로그인 되어있습니다."))
    else:
-      return render_template('join_.html')
+      return render_template('join.html')
 
 
 
