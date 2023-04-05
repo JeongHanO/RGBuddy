@@ -6,7 +6,7 @@ from pymongo import MongoClient
 client = MongoClient('localhost', 27017)
 db = client.dbjungle
 
-import hashlib, jwt, calendar
+import hashlib, jwt, calendar, random
 from datetime import datetime, timedelta
 
 KEYCODE = 'RGBuddy_key'
@@ -22,6 +22,11 @@ def tokenCheck():
       return [False, redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))]
    return [ True, user_info]
 
+def rand_res():
+   # collection =db['restaurants']
+   data = list(db.restaurants.find())
+   random_data = random.sample(data, 2)
+   return [random_data[0]['name'],random_data[1]['name']]
 
 ## HTML을 주는 부분
 @app.route('/')
@@ -40,8 +45,8 @@ def login():
    else:
       return render_template('login.html')
 
-@app.route('/signup')
-def signup():   
+@app.route('/join')
+def join():   
    login = tokenCheck()
    if login[0]==True:
       return redirect(url_for("calendar", msg="로그인 되어있습니다."))
@@ -110,6 +115,7 @@ def matchLog():
       not_matched=[]
       matched=[]
       print(dates)
+      
       for date in dates:
          data = db.dates.find_one({'date': date})
          index = data[userInfo['team']].index(userInfo['id'])
@@ -119,16 +125,14 @@ def matchLog():
             not_matched.append(date)
          else:
             #매칭 된 날짜
-            # print(data['red'][index], data['green'][index], data['blue'][index])
-            # print(matched)
-            # matched.append({'date': date, {'name'}})
-            # print(db.users.find_one({'id': data['red'][index]})['id','phone'])
             suc_date = [date]
             for team in ['red', 'green','blue']:
                id=data[team][index]
                phone=db.users.find_one({'id': data['red'][index]})['phone']
                suc_date.append([id, phone])
+            suc_date.append(rand_res())
             matched.append(suc_date)
+
                   
 
       return render_template('matchLog.html', userName=userInfo['name'], not_matched=not_matched, matched=matched)
@@ -137,8 +141,16 @@ def matchLog():
       return login[1]
 
 # API 역할을 하는 부분
-
-@app.route('/api/signup', methods= ['POST'])
+@app.route('/api/idcheck', methods = ['POST'])
+def api_idCheck():
+   id_receive = request.form['id_give']
+   check=db.users.find_one({'id': id_receive})
+   if check is None:
+      return jsonify({'result':'success'})
+   else:
+      return jsonify({'result':'fail','msg':'이미 존재하는 아이디입니다!'})
+   
+@app.route('/signup', methods= ['POST','GET'])
 def api_signup():
    id_receive = request.form['id_give']  
    pw_receive = request.form['pw_give']
@@ -177,7 +189,7 @@ def api_login():
    else:
       return jsonify({'result': 'fail', 'msg': '아이디 또는 비밀번호가 일치하지 않습니다.'}) 
 
-@app.route('/api/apply', methods= ['POST'])
+@app.route('/api/apply', methods= ['POST','GET'])
 def api_apply():
 
     login = tokenCheck()
