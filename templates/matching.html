@@ -17,6 +17,30 @@
         //         data: { 'date': "4/11" }
         //     })
         // }
+        function full(color){
+            alert("해당 날짜에 "+color+"팀은 마감되었습니다. ")
+        }
+        function applyWait(date){
+            $.ajax({
+                type: 'POST',
+                url: '/api/apply',
+                data: {date_give: date},
+                success:function(response){
+                    if(response["result"] == "success"){
+                        alert("대기목록에 등록되었습니다");
+                        window.location.href='/matchLog'
+                    }
+                    else if(response["result"] == "exist"){
+                        alert("해당 날짜에 이미 신청하셨습니다.")
+                        window.location.href='/calendar'
+
+                    }       
+                    else
+                        alert("오류");           
+                }
+                                
+            })
+        }
         function apply(date){
             
             $.ajax({
@@ -25,17 +49,23 @@
                 data: {date_give: date},
                 success:function(response){
                     if(response["result"] == "success"){
-                        alert("매칭이 성사되었습니다");
+                        alert("밥 친구가 매칭 되었습니다");
+                        window.location.href='/matchLog'
                     }
-                            
+                    else if(response["result"] == "exist"){
+                        alert("해당 날짜에 이미 신청하셨습니다.")
+                        window.location.href='/calendar'
+                    }
                     else
                         alert("오류");           
                 }
                                 
             })
-            window.location.href='/matchLog'
+            
 
         }
+
+        
     </script>
     
     {% endblock %}

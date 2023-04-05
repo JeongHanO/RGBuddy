@@ -11,6 +11,21 @@
 </style>
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
+  function cancel(date) {
+    if (confirm("매칭을 취소하시겠습니까?")) {
+      $.ajax({
+        type: "POST",
+        url: "/api/cancel",
+        data: { date_give: date },
+        success: function (response) {
+          if (response["result"] == "success") {
+            alert("매칭이 취소되었습니다.");
+            window.location.reload();
+          } else alert("오류");
+        },
+      });
+    }
+  }
   function goCal() {
     window.location.href = `/calendar`;
   }
@@ -26,10 +41,10 @@
   <div>
     <div class="matcing_days_container text-2xl">
       <div class="inline">매칭 대기 중인 날짜:</div>
-      <!-- <button class="days_waiting inline px-1">4/8</button>
-      <button class="days_waiting inline px-1">4/12</button> -->
       {% for date in not_matched %}
-      <button class="days_waiting inline px-1">{{date}}</button>
+      <button class="days_waiting inline px-1" onclick="cancel('{{date}}')">
+        {{date}}
+      </button>
       {% endfor %}
     </div>
   </div>
@@ -42,22 +57,36 @@
     >
       <div>
         <div class="font-bold">{{dateInfo[0]}}</div>
-        {% for i in range(3) %}
         <div>
           <h5
-            class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white inline pr-2"
+            class="mb-2 text-2xl font-bold tracking-tight text-red-500 dark:text-white inline pr-2"
           >
-            {{dateInfo[i+1][0]}}
+            {{dateInfo[1][0]}}
           </h5>
-          <p class="font-normal text-gray-700 inline">{{dateInfo[i+1][1]}}</p>
+          <p class="font-normal text-gray-700 inline">{{dateInfo[1][1]}}</p>
         </div>
-        {% endfor %}
+        <div>
+          <h5
+            class="mb-2 text-2xl font-bold tracking-tight text-green-500 dark:text-white inline pr-2"
+          >
+            {{dateInfo[2][0]}}
+          </h5>
+          <p class="font-normal text-gray-700 inline">{{dateInfo[2][1]}}</p>
+        </div>
+        <div>
+          <h5
+            class="mb-2 text-2xl font-bold tracking-tight text-blue-500 dark:text-white inline pr-2"
+          >
+            {{dateInfo[3][0]}}
+          </h5>
+          <p class="font-normal text-gray-700 inline">{{dateInfo[3][1]}}</p>
+        </div>
       </div>
       <div>
         <br />
         <div>
           <p class="font-normal text-gray-700 inline">
-            추천 메뉴: {% for res in dateInfo[4] %} {{res}} {% endfor %}
+            추천 식당: {{dateInfo[4][0]+', '+dateInfo[4][1]}}
           </p>
         </div>
       </div>

@@ -204,6 +204,10 @@ def api_apply():
     month_number = enMonth.index(month)
     date_formatted = str(month_number)+'/'+str(day)
 
+    if date_formatted in userInfo['date']:
+      return jsonify({'result': 'exist'})
+
+
     teamColor = userInfo['team']
     userId = userInfo['id']
    
@@ -227,7 +231,40 @@ def api_apply():
     return jsonify({'result': 'success'})
 
 
+@app.route('/api/cancel', methods=['POST'])
+def api_cancel():
+   login = tokenCheck()
+   if login[0] == True:
+      userInfo = login[1]
+   else:
+      return login[1]
+   
+   #날짜값 필요, 계정 아이디 필요
+   userId = userInfo['id']
+   date_receive = request.form['date_give']  # 4/11 형식으로 받아옴
+   
+   #userdate 리스트를 불러와서
+   userDates = userInfo['date'] 
 
+
+   #userDates 안에 date_receive랑 같으면 지워줌
+   if date_receive in userDates:
+      userDates.remove(date_receive)
+   db.users.update_one({'id': userId}, {
+                          "$set": {'date': userDates}})
+   teamColor = userInfo['team'] ## 팀칼라에 유저의 팀 정보를 저장
+
+   query = {'date': date_receive}
+   data = db.dates.find_one({'date': date_receive})
+   if userId in data[teamColor] :
+      data[teamColor].remove(userId)
+      db.dates.update_one({'date': date_receive},
+                      {"$set": {teamColor: data[teamColor]}})
+      
+   
+
+ 
+   return jsonify({'result': 'success'})
 
 if __name__ == '__main__':
    app.run('0.0.0.0',port=5000,debug=True)
