@@ -1,0 +1,25 @@
+{
+  "name": "rgbuddy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "postcss.config.js",
+  "dependencies": {
+    "postcss": "^8.4.21",
+    "tailwindcss": "^3.3.1",
+    "autoprefixer": "^10.4.14"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ddaogi/RGBuddy.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ddaogi/RGBuddy/issues"
+  },
+  "homepage": "https://github.com/ddaogi/RGBuddy#readme"
+}
