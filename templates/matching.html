@@ -1,4 +1,4 @@
-<head>
+{# index.html 상속 #} {% extends "index.html" %} {% block head %}
     <style>
         .matching {
             display: flex;
@@ -10,17 +10,39 @@
     </style>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        function matching() {
+        // function matching() {
+        //     $.ajax({
+        //         type: "GET",
+        //         url: "/matching",
+        //         data: { 'date': "4/11" }
+        //     })
+        // }
+        function apply(date){
+            
             $.ajax({
-                type: "GET",
-                url: "/matching",
-                data: { 'date': "4/11" }
+                type: 'POST',
+                url: '/api/apply',
+                data: {date_give: date},
+                success:function(response){
+                    if(response["result"] == "success"){
+                        alert("매칭이 성사되었습니다");
+                    }
+                            
+                    else
+                        alert("오류");           
+                }
+                                
             })
+            window.location.href='/matchLog'
+
         }
     </script>
-</head>
-
-<body>
+    
+    {% endblock %}
+    <!-- </head>
+    
+      <body> -->
+    {% block content %}
     <div class="matching pt-32">
         <h2 class="date-label text-7xl font-bold">{{date}}</h2>
         <br>
@@ -59,12 +81,12 @@
             <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='b2.jpg')}}"></img>
             {% elif blueCount ==3 and teamColor!='blue'%}
             <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='b3.jpg')}}"></img>
+            {% elif blueCount ==0 and teamColor=='blue' %}
+            <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='b1_add.jpg')}}"></img>
             {% elif blueCount ==1 and teamColor=='blue' %}
-            <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='b1.jpg')}}"></img>
+            <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='b2_add.jpg')}}"></img>
             {% elif blueCount ==2 and teamColor=='blue' %}
-            <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='b2.jpg')}}"></img>
-            {% elif blueCount ==3 and teamColor=='blue' %}
-            <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='b3.jpg')}}"></img>
+            <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='b3_add.jpg')}}"></img>
             {% endif %}
         </div>
         <br><br>
@@ -72,10 +94,11 @@
             <a class="w-48 bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded text-4xl inline mx-5" href="/calendar">뒤로 가기</a>
 
             <button
+                onclick="apply('{{date}}')"
                 class="w-48 h-20 bg-yellow-500 hover:bg-yellow-700 text-black font-bold py-2 px-4 rounded text-4xl inline mx-5">
                 신청하기
             </button>
         </div>
 
     </div>
-</body>
+    {% endblock %}

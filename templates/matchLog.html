@@ -1,0 +1,147 @@
+{# index.html 상속 #} {% extends "index.html" %} {% block head %}
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<style>
+  .match_list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  function goCal() {
+    window.location.href = `/calendar`;
+  }
+</script>
+{% endblock %} {% block content %}
+<div class="match_list pt-32">
+  <h2 class="date-label text-7xl font-bold">매칭 내역</h2>
+  <br />
+  <div>
+    <p class="text-4xl inline">{{userName}}님의 매칭</p>
+  </div>
+  <br />
+  <div>
+    <div class="matcing_days_container text-2xl">
+      <div class="inline">매칭 대기 중인 날짜:</div>
+      <!-- <button class="days_waiting inline px-1">4/8</button>
+      <button class="days_waiting inline px-1">4/12</button> -->
+      {% for date in waitDates %}
+      <button class="days_waiting inline px-1">{{date}}</button>
+      {% endfor %}
+    </div>
+  </div>
+  <br />
+  <div class="card_container">
+    <div
+      class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow mx-3 my-3"
+      style="float: left"
+    >
+      <div>
+        <h5
+          class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white inline pr-2"
+        >
+          AAA
+        </h5>
+        <p class="font-normal text-gray-700 inline">010-1234-4444</p>
+      </div>
+      <div>
+        <h5
+          class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white inline pr-2"
+        >
+          AAA
+        </h5>
+        <p class="font-normal text-gray-700 inline">010-1234-1234</p>
+      </div>
+      <div>
+        <h5
+          class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white inline pr-2"
+        >
+          AAA
+        </h5>
+        <p class="font-normal text-gray-700 inline">010-1234-1234</p>
+      </div>
+      <br />
+      <div>
+        <p class="font-normal text-gray-700 inline">추천 메뉴:</p>
+      </div>
+    </div>
+    <div
+      class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow mx-3 my-3"
+      style="float: left"
+    >
+      <div>
+        <h5
+          class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white inline pr-2"
+        >
+          AAA
+        </h5>
+        <p class="font-normal text-gray-700 inline">010-1234-1234</p>
+      </div>
+      <div>
+        <h5
+          class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white inline pr-2"
+        >
+          AAA
+        </h5>
+        <p class="font-normal text-gray-700 inline">010-1234-1234</p>
+      </div>
+      <div>
+        <h5
+          class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white inline pr-2"
+        >
+          AAA
+        </h5>
+        <p class="font-normal text-gray-700 inline">010-1234-1234</p>
+      </div>
+      <br />
+      <div>
+        <p class="font-normal text-gray-700 inline">추천 메뉴:</p>
+      </div>
+    </div>
+    <div
+      class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow mx-3 my-3"
+      style="float: left"
+    >
+      <div>
+        <h5
+          class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white inline pr-2"
+        >
+          AAA
+        </h5>
+        <p class="font-normal text-gray-700 inline">010-1234-1234</p>
+      </div>
+      <div>
+        <h5
+          class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white inline pr-2"
+        >
+          AAA
+        </h5>
+        <p class="font-normal text-gray-700 inline">010-1234-1234</p>
+      </div>
+      <div>
+        <h5
+          class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white inline pr-2"
+        >
+          AAA
+        </h5>
+        <p class="font-normal text-gray-700 inline">010-1234-1234</p>
+      </div>
+      <br />
+      <div>
+        <p class="font-normal text-gray-700 inline">추천 메뉴:</p>
+      </div>
+    </div>
+  </div>
+
+  <br />
+  <button
+    class="w-30 h-15 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded text-2xl inline mx-5"
+    onclick="goCal()"
+  >
+    돌아가기
+  </button>
+</div>
+{% endblock %}
