@@ -1,0 +1,153 @@
+{# index.html 상속 #} {% extends "index.html" %} {% block head %}
+    <style>
+        .matching {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding-top: auto;
+        }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        function goCal(){
+            window.location.href = '/calendar';
+        }
+        function full(color){
+            alert("해당 날짜에 "+color+"팀은 마감되었습니다. ")
+        }
+        function applyWait(date){
+            $.ajax({
+                type: 'POST',
+                url: '/api/apply',
+                data: {date_give: date},
+                success:function(response){
+                    if(response["result"] == "success"){
+                        alert("대기목록에 등록되었습니다");
+                        window.location.href='/matchLog'
+                    }
+                    else if(response["result"] == "exist"){
+                        alert("해당 날짜에 이미 신청하셨습니다.")
+                        window.location.href='/calendar'
+
+                    }       
+                    else
+                        alert("오류");           
+                }
+                                
+            })
+        }
+        function apply(date){
+            
+            $.ajax({
+                type: 'POST',
+                url: '/api/apply',
+                data: {date_give: date},
+                success:function(response){
+                    if(response["result"] == "success"){
+                        alert("밥 친구가 매칭 되었습니다");
+                        window.location.href='/matchLog'
+                    }
+                    else if(response["result"] == "exist"){
+                        alert("해당 날짜에 이미 신청하셨습니다.")
+                        window.location.href='/calendar'
+                    }
+                    else
+                        alert("오류");           
+                }
+                                
+            })
+            
+
+        }
+
+        
+    </script>
+    
+    {% endblock %}
+    <!-- </head>
+    
+      <body> -->
+        {% block content %}
+        <div class="matching pt-32">
+            <h2 class="date-label text-7xl font-bold">{{date}}</h2>
+            <br>
+            <div class="photo">
+                {% if redCount ==1 and teamColor!='red' %}
+                <img class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='r1.jpg')}}"></img>
+                {% elif redCount ==2 and teamColor!='red' %}
+                <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='r2.jpg')}}"></img>
+                {% elif redCount ==3 %}
+                <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='r3.jpg')}}"></img>
+                {% elif redCount ==0 and teamColor=='red' %}
+                <img class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='r1_add.jpg')}}"></img>
+                {% elif redCount ==1 and teamColor=='red' %}
+                <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='r2_add.jpg')}}"></img>
+                {% elif redCount ==2 and teamColor=='red'%}
+                <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='r3_add.jpg')}}"></img>
+                {% endif %}
+    
+                {% if greenCount ==1 and teamColor!='green'%}
+                <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='g1.jpg')}}"></img>
+                {% elif greenCount ==2 and teamColor!='green' %}
+                <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='g2.jpg')}}"></img>
+                {% elif greenCount ==3 %}
+                <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='g3.jpg')}}"></img>
+                {% elif greenCount ==0 and teamColor=='green'%}
+                <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='g1_add.jpg')}}"></img>
+                {% elif greenCount ==1 and teamColor=='green' %}
+                <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='g2_add.jpg')}}"></img>
+                {% elif greenCount ==2 and teamColor=='green'%}            
+                <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='g3_add.jpg')}}"></img>
+                {% endif %}
+    
+                {% if blueCount ==1 and teamColor!='blue'%}
+                <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='b1.jpg')}}"></img>
+                {% elif blueCount ==2 and teamColor!='blue' %}
+                <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='b2.jpg')}}"></img>
+                {% elif blueCount ==3 %}
+                <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='b3.jpg')}}"></img>
+                {% elif blueCount ==0 and teamColor=='blue' %}
+                <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='b1_add.jpg')}}"></img>
+                {% elif blueCount ==1 and teamColor=='blue' %}
+                <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='b2_add.jpg')}}"></img>
+                {% elif blueCount ==2 and teamColor=='blue' %}
+                <img  class="inline object-scale-down h-64 w-64" src="{{ url_for('static', filename='b3_add.jpg')}}"></img>
+                {% endif %}
+            </div>
+            <br><br>
+            <div class="">
+                <button
+                    class="w-48 h-20 bg-gray-300 hover:bg-gray-400 text-white font-bold py-2 px-4 rounded text-4xl inline-block mx-5"
+                    onclick="goCal()">뒤로 가기</button>
+                <!-- 자리가 꽉찼을 경우 생성되는 버튼-->
+                {%if redCount == 3 and teamColor =='red'%}
+                <button class="w-48 h-20 bg-gray-500 hover:bg-gray-700 text-black font-bold py-2 px-4 rounded text-4xl inline-block mx-5" onclick="full('{{teamColor}}')">신청 마감</button>
+                <!-- <button class="w-48 bg-gray-500 hover:bg-gray-700 text-black font-bold py-2 px-4 rounded text-4xl inline mx-5" style="padding: 12 0px; margin: 0 " onclick ="full('{{teamColor}}')" > 신청 마감</button> -->
+                {%elif blueCount ==3 and teamColor =='blue'%}
+                <button class="w-48 h-20 bg-gray-500 hover:bg-gray-700 text-black font-bold py-2 px-4 rounded text-4xl inline-block mx-5" onclick="full('{{teamColor}}')">신청 마감</button>
+                <!-- <button class="w-48 bg-gray-500 hover:bg-gray-700 text-black font-bold py-2 px-4 rounded text-4xl inline mx-5" style="padding: 12 0px; margin: 0 " onclick ="full('{{teamColor}}')" > 신청 마감</button> -->
+                {%elif greenCount ==3 and teamColor == 'green'%}
+                <button class="w-48 h-20 bg-gray-500 hover:bg-gray-700 text-black font-bold py-2 px-4 rounded text-4xl inline-block mx-5" onclick="full('{{teamColor}}')">신청 마감</button>
+                <!-- <button class="w-48 bg-gray-500 hover:bg-gray-700 text-black font-bold py-2 px-4 rounded text-4xl inline mx-5" style="padding: 12 0px; margin: 0 " onclick ="full('{{teamColor}}')" > 신청 마감</button> -->
+                
+                <!-- 자리가 있을 경우 생기는 버튼  -->     
+                 
+                <!-- 신청하면 바로 매칭 성사 될 경우 -->
+                {% elif teamColor =='red' and redCount < blueCount and redCount < greenCount %}
+                <button class="w-48 h-20 bg-yellow-500 hover:bg-yellow-700 text-black font-bold py-2 px-4 rounded text-4xl inline-block mx-5" onclick="apply('{{date}}')">신청하기</button>
+                <!-- <button class="w-48 bg-yellow-500 hover:bg-yellow-700 text-black font-bold py-2 px-4 rounded text-4xl inline mx-5" style="padding: 12 0px; margin: 0;" onclick ="apply('{{date}}')"> 신청하기 </button> -->
+                {% elif teamColor =='blue' and blueCount < redCount and blueCount < greenCount %}
+                <button class="w-48 h-20 bg-yellow-500 hover:bg-yellow-700 text-black font-bold py-2 px-4 rounded text-4xl inline-block mx-5" onclick="apply('{{date}}')">신청하기</button>
+                <!-- <button class="w-48 bg-yellow-500 hover:bg-yellow-700 text-black font-bold py-2 px-4 rounded text-4xl inline mx-5" style="padding: 12 0px; margin: 0;" onclick ="apply('{{date}}')"> 신청하기 </button> -->
+                {% elif teamColor =='green' and greenCount < blueCount and greenCount < redCount %}
+                <button class="w-48 h-20 bg-yellow-500 hover:bg-yellow-700 text-black font-bold py-2 px-4 rounded text-4xl inline-block mx-5" onclick="apply('{{date}}')">신청하기</button>
+                <!-- <button class="w-48 bg-yellow-500 hover:bg-yellow-700 text-black font-bold py-2 px-4 rounded text-4xl inline mx-5" style="padding: 12 0px; margin: 0;" onclick ="apply('{{date}}')"> 신청하기 </button> -->
+                <!-- 신청하면 매칭대기 목록에 등록될 경우-->
+                {% else %}
+                <button class="w-48 h-20 bg-yellow-500 hover:bg-yellow-700 text-black font-bold py-2 px-4 rounded text-4xl inline-block mx-5" onclick="applyWait('{{date}}')">신청하기</button>
+                {% endif %}
+            </div>
+    
+        </div>
+        {% endblock %}

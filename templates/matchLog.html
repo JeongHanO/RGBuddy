@@ -1,0 +1,105 @@
+{# index.html 상속 #} {% extends "index.html" %} {% block head %}
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<style>
+  .match_list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  function cancel(date) {
+    if (confirm("매칭을 취소하시겠습니까?")) {
+      $.ajax({
+        type: "POST",
+        url: "/api/cancel",
+        data: { date_give: date },
+        success: function (response) {
+          if (response["result"] == "success") {
+            alert("매칭이 취소되었습니다.");
+            window.location.reload();
+          } else alert("오류");
+        },
+      });
+    }
+  }
+  function goCal() {
+    window.location.href = `/calendar`;
+  }
+</script>
+{% endblock %} {% block content %}
+<div class="match_list pt-32">
+  <h2 class="date-label text-7xl font-bold">매칭 내역</h2>
+  <br />
+  <div>
+    <p class="text-4xl inline">{{userName}}님의 매칭</p>
+  </div>
+  <br />
+  <div>
+    <div class="matcing_days_container text-2xl">
+      <div class="inline">매칭 대기 중인 날짜:</div>
+      {% for date in not_matched %}
+      <button class="days_waiting inline px-1" onclick="cancel('{{date}}')">
+        {{date}}
+      </button>
+      {% endfor %}
+    </div>
+  </div>
+  <br />
+  <div class="card_container grid grid-cols-3">
+    {% for dateInfo in matched %}
+    <div
+      class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow mx-3 my-3"
+      style="float: left"
+    >
+      <div>
+        <div class="font-bold">{{dateInfo[0]}}</div>
+        <div>
+          <h5
+            class="mb-2 text-2xl font-bold tracking-tight text-red-500 dark:text-white inline pr-2"
+          >
+            {{dateInfo[1][0]}}
+          </h5>
+          <p class="font-normal text-gray-700 inline">{{dateInfo[1][1]}}</p>
+        </div>
+        <div>
+          <h5
+            class="mb-2 text-2xl font-bold tracking-tight text-green-500 dark:text-white inline pr-2"
+          >
+            {{dateInfo[2][0]}}
+          </h5>
+          <p class="font-normal text-gray-700 inline">{{dateInfo[2][1]}}</p>
+        </div>
+        <div>
+          <h5
+            class="mb-2 text-2xl font-bold tracking-tight text-blue-500 dark:text-white inline pr-2"
+          >
+            {{dateInfo[3][0]}}
+          </h5>
+          <p class="font-normal text-gray-700 inline">{{dateInfo[3][1]}}</p>
+        </div>
+      </div>
+      <div>
+        <br />
+        <div>
+          <p class="font-normal text-gray-700 inline">
+            추천 식당: {{dateInfo[4][0]+', '+dateInfo[4][1]}}
+          </p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <br />
+  <button
+    class="w-30 h-15 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded text-2xl inline mx-5"
+    onclick="goCal()"
+  >
+    돌아가기
+  </button>
+</div>
+{% endblock %}

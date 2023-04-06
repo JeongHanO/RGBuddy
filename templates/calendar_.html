@@ -1,0 +1,109 @@
+{# index.html 상속 #} {% extends "index.html" %} {% block head %}
+<style>
+  .calendar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  function matching(date) {
+    window.location.href = `/matching?date=${date}`;
+    $.ajax({
+      type: "GET",
+      url: "/matching",
+      data: { date: date },
+    });
+  }
+  function matchlog() {
+    window.location.href = `/matchLog`;
+  }
+</script>
+{% endblock %} {% block content %}
+<div class="calendar pt-40">
+  <div class="row flex items-center">
+    <h2 class="date-label text-7xl font-bold inline mr-32">
+      {{enMonth}} {{day}}
+    </h2>
+    <button
+      class="w-48 h-20 bg-gray-600 hover:bg-gray-700 text-white font-bold rounded text-4xl inline"
+      onclick="matchlog()"
+    >
+      매칭 내역
+    </button>
+  </div>
+
+  <br /><br /><br /><br />
+  <div>
+    <div class="flex">
+      <div class="w-20 h-20 text-black font-bold text-4xl inline text-center">
+        Mon
+      </div>
+      <div class="w-20 h-20 text-black font-bold text-4xl inline text-center">
+        Tue
+      </div>
+      <div class="w-20 h-20 text-black font-bold text-4xl inline text-center">
+        Wed
+      </div>
+      <div class="w-20 h-20 text-black font-bold text-4xl inline text-center">
+        Thu
+      </div>
+      <div class="w-20 h-20 text-black font-bold text-4xl inline text-center">
+        Fri
+      </div>
+      <div
+        class="w-20 h-20 text-blue-500 font-bold text-4xl inline text-center"
+      >
+        Sat
+      </div>
+      <div class="w-20 h-20 text-red-500 font-bold text-4xl inline text-center">
+        Sun
+      </div>
+    </div>
+    <div class="grid grid-cols-7">
+      {% for i in range(14) %} {% if i < weekday or i > weekday+7 %}
+      <button
+        onclick="matching('{{year}}/{{month}}/{{weekrange[i]}}')"
+        ,
+        class="w-20 h-20 bg-white-600 hover:bg-gray-300 text-black font-bold rounded text-4xl inline invisible"
+      >
+        {{weekrange[i]}}
+      </button>
+      {% elif i == weekday %}
+      <button
+        disabled
+        class="w-20 h-20 bg-gray-200 text-gray-400 font-bold rounded-full text-4xl inline"
+      >
+        {{weekrange[i]}}
+      </button>
+      {% elif i % 7 == 5 %}
+      <button
+        onclick="matching('{{year}}/{{month}}/{{weekrange[i]}}')"
+        ,
+        class="w-20 h-20 bg-white-600 hover:bg-gray-300 text-blue-500 font-bold rounded text-4xl inline"
+      >
+        {{weekrange[i]}}
+      </button>
+      {% elif i % 7 == 6 %}
+      <button
+        onclick="matching('{{year}}/{{month}}/{{weekrange[i]}}')"
+        ,
+        class="w-20 h-20 bg-white-600 hover:bg-gray-300 text-red-500 font-bold rounded text-4xl inline"
+      >
+        {{weekrange[i]}}
+      </button>
+      {% else %}
+      <button
+        onclick="matching('{{year}}/{{month}}/{{weekrange[i]}}')"
+        ,
+        class="w-20 h-20 bg-white-600 hover:bg-gray-300 text-black font-bold rounded text-4xl inline"
+      >
+        {{weekrange[i]}}
+      </button>
+      {% endif %} {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

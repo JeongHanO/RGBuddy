@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang=""ko">
+  <head>
+    <title></title>
+    <style></style>
+    <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script>
+      function logout() {
+        $.removeCookie('mytoken', {path: '/'});
+        window.location.href = '/login';
+      }
+    </script>
+    {% block head %}
+    {% endblock %}
+  </head>
+  <body>
+    <div class="fixed top-20 right-60">
+      <button type="submit" onclick="logout()"
+        class="w-32 h-15 bg-indigo-400 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded text-2xl">
+        로그아웃
+      </button>
+    </div>
+    <div>
+      
+      <div>
+        {% block content %}
+        {% endblock %}
+      </div>
+    </div>
+
+  </body>
+
+</html>
