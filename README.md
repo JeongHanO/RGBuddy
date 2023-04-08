@@ -16,11 +16,22 @@
 <br><img src="https://img.shields.io/badge/flask-764ABC?style=for-the-badge&logo=flask&logoColor="><img src="https://img.shields.io/badge/jinja-B41717?style=for-the-badge&logo=jinja&logoColor=white"><img src="https://img.shields.io/badge/mongodb-47A248?style=for-the-badge&logo=mongodb&logoColor=white">
 
 
+
 > ## 기획의도
 
 - 정글 수강 중, 같은 반 내에서는 프로젝트나 랜덤 런치 등의 기회를 통해 5개월동안 친해질 수 있는 기회가 있습니다.<br>반면, 다른 반과는 별다른 접점이 없어 교류 할 수 있는 방법이 없습니다. <br>
 이러한 점을 아쉬워하는 분들을 위해 기획하게 되었습니다.
 
+> ## 프로그램 설명
+
+ - 한 날짜에 각 팀 3명씩, 총 9명이 매칭을 신청 할 수 있습니다.
+ - 달력에서 날짜를 클릭하면 3가지 색상의 밥그릇이 보여집니다.
+ - 각 밥그릇의 개수는 대기중인 인원을 나타내며, 유저가 신청했을 때 쌓이는 밥그릇은 투명하게 보여집니다.
+ - 매칭이 성사되었을 경우, 매칭이 성사된 사람들의 이름과 연락처가 카드형태로 출력됩니다.
+ 
+ 
+ 
+ 
 > ## 와이어프레임
 
 ![](https://velog.velcdn.com/images/ddaogi/post/01026451-8050-4642-a4c7-a34ea98d02a3/image.png)
