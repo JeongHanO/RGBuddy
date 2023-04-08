@@ -6,7 +6,8 @@
 
 - 팀원: 이성균, 오정한, 김서영
 
-        
+![](https://velog.velcdn.com/images/ddaogi/post/ff6459cc-f62d-498a-ae9c-f07cadae66a5/image.gif)
+
 
 
         
@@ -24,16 +25,37 @@
 
 ![](https://velog.velcdn.com/images/ddaogi/post/01026451-8050-4642-a4c7-a34ea98d02a3/image.png)
 
-> ## 구현
+> ## 기능구현
         
 
+>  ### 회원 가입
 
-<img src="https://velog.velcdn.com/images/ddaogi/post/d9cf3abe-c2f6-4200-bdc4-798f6b80a3e2/image.png" width="450" />
-<img src="https://velog.velcdn.com/images/ddaogi/post/7f2113bf-98d1-4e16-8334-770d693dd769/image.png" width="450" />
-<img src="https://velog.velcdn.com/images/ddaogi/post/150ea114-2c2e-43ee-9833-108e7721758d/image.png" width="450" />
-<img src="https://velog.velcdn.com/images/ddaogi/post/5b539b25-377e-45e6-9818-516854528f87/image.png" width="450" />
-<img src="https://velog.velcdn.com/images/ddaogi/post/d4a6f238-b7ed-461b-969e-a6b3e107f8ac/image.png" width="450" />
+![](https://velog.velcdn.com/images/ddaogi/post/ff6459cc-f62d-498a-ae9c-f07cadae66a5/image.gif)
 
+> ### 로그인 실패
+
+![](https://velog.velcdn.com/images/ddaogi/post/43dde7f1-c693-4304-8b75-3600c34f16a3/image.gif)
+
+> ### 로그인 성공
+
+![](https://velog.velcdn.com/images/ddaogi/post/3b0e969c-ba1d-460a-bb64-eb048784f36e/image.gif)
+
+> ### 날짜 중복신청 체크 
+
+![](https://velog.velcdn.com/images/ddaogi/post/16533305-4ec4-41eb-aa37-61763ac906f9/image.gif)
+
+> ### 신청한 날짜 매칭 취소
+
+![](https://velog.velcdn.com/images/ddaogi/post/b8a8f9fe-a905-4f94-9aa7-6ef0fbcb3f53/image.gif)
+
+
+> ### 매칭 대기열에 빈자리 없을때 
+
+![](https://velog.velcdn.com/images/ddaogi/post/1591aa76-0eaf-4455-ab52-99dd9fd1f1a8/image.gif)
+
+> ### 매칭 성공
+
+![](https://velog.velcdn.com/images/ddaogi/post/fdcc546d-5692-41da-a4ca-f0944a7dffff/image.gif)
 
 
 
